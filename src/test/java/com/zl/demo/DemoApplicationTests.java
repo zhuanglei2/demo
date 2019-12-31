@@ -1,6 +1,8 @@
 package com.zl.demo;
 
+import com.google.common.base.Preconditions;
 import com.zl.demo.common.CryptUtil;
+import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
 import lombok.Data;
 import lombok.ToString;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.*;
@@ -17,6 +20,25 @@ import java.util.stream.Stream;
 @SpringBootTest
 class DemoApplicationTests {
 
+    /**
+     * 验证帮助
+     */
+    @Resource
+    protected SzValidator szValidator;
+    /**
+     * 校验参数合法性
+     *
+     * @param o
+     */
+    protected void checkParam(Object o) {
+
+        /** 校验参数 */
+        Map<String, String> errorMsg = szValidator.vailed(o);
+
+        Preconditions.checkArgument(errorMsg.size() == 0,
+                errorMsg);
+    }
+
     @Test
     public void testAspect(){
         Apple apple = new Apple();
@@ -24,6 +46,7 @@ class DemoApplicationTests {
         apple.setSize("200g");
         apple.setAmount("1吨");
         apple.setPrice("5");
+        checkParam(apple);
         CryptUtil.enCrypt(apple,"");
         System.out.println(apple);
         CryptUtil.deCrypt(apple,"");

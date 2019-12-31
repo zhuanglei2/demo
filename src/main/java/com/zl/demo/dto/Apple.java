@@ -5,6 +5,9 @@ import com.zl.demo.aspect.Encrypt;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author zhuangl
  * @version 1.0
@@ -16,6 +19,7 @@ public class Apple {
 
     @Encrypt
     @Decrypt
+    @NotBlank(message = "姓名不能为空")
     private String name;
     @Encrypt
     @Decrypt
@@ -26,4 +30,7 @@ public class Apple {
     @Encrypt
     @Decrypt
     private String size;
+
+    @Email
+    private String email;
 }
