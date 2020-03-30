@@ -1,22 +1,34 @@
 package com.zl.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
 import com.zl.demo.common.CryptUtil;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
 import lombok.Data;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.groupingBy;
+import static org.springframework.classify.PatternMatcher.match;
+
+@Slf4j
 @SpringBootTest
 class DemoApplicationTests {
 
@@ -25,6 +37,191 @@ class DemoApplicationTests {
      */
     @Resource
     protected SzValidator szValidator;
+
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+
+
+    @Test
+    public void testLambda(){
+        List<UserBo> list = new ArrayList<>();
+        list.add(new UserBo(100, "Mohan"));
+        list.add(new UserBo(100, "Sohan"));
+        list.add(new UserBo(300, "Mahesh"));
+        //分组
+        Map<Integer,List<UserBo>> map = list.stream().collect(groupingBy(UserBo::getUserId));
+        //根据某个属性去重
+        list = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection
+                (()->new TreeSet<>(Comparator.comparing(o->o.getUserId()))),ArrayList::new));
+        log.info(JSON.toJSONString(list));
+        log.info(JSON.toJSONString(map));
+    }
+
+    @Test
+    public void test111(){
+
+        List<String> list1 = new ArrayList<String>();
+        list1.add("A");
+        list1.add("B");
+
+        List<String> list2 = new ArrayList<String>();
+        list2.add("B");
+        list2.add("E");
+
+        list1.retainAll(list2);
+        System.out.println(list1);
+    }
+
+    @Test
+    public void testMail(){
+        String uuid = UUID.randomUUID().toString().replaceAll("-","").substring(0,8).toUpperCase();
+        System.out.println(uuid);
+    }
+    /**
+     * 判断是否为邮箱
+     * @param str
+     * @return
+     */
+    public boolean isEmail(String str) {
+        String pattern = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(str);
+        return m.matches();
+    }
+
+    @Test
+    public void testSortStack(){
+        Stack<String> stack = new Stack<String>();
+        List<String> list  = new ArrayList<>();
+        List<String> list2  = new ArrayList<>();
+        List<String> addGoods = new ArrayList<>();
+        String[] shu = new String[]{"4", "5", "6"};
+        String[] shu2 = new String[]{"0", "1", "2", "3"};
+
+        f(list,stack,shu,1,0,0); // 从这个数组3个数中选择1个
+        f(list2,stack,shu2,2,0,0); // 从这个数组4个数中选择2个
+        List<String[]> dataList = new ArrayList<String[]>();
+        String[] s1 = list.toArray(new String[0]);
+        String[] s2 = list2.toArray(new String[0]);
+        dataList.add(s1);
+        dataList.add(s2);
+        List<String[]> resultList = ArrayCombination.combination(dataList, 0, null);
+        resultList.forEach(str->{
+            addGoods.add(org.apache.commons.lang3.StringUtils.join(str,","));
+        });
+        addGoods.forEach(addGood->{
+            System.out.println(addGood);
+        });
+
+    }
+    /**
+     *
+     * @param shu  元素
+     * @param targ  要选多少个元素
+     * @param has   当前有多少个元素
+     * @param cur   当前选到的下标
+     *
+     * 1    2   3     //开始下标到2
+     * 1    2   4     //然后从3开始
+     */
+    private static void f(List<String> list,Stack<String> stack,String[] shu, int targ, int has, int cur) {
+        if(has == targ) {
+            String[] o1 = stack.toArray(new String[0]);
+            list.add(org.apache.commons.lang3.StringUtils.join(o1,","));
+            return;
+        }
+
+        for(int i=cur;i<shu.length;i++) {
+            if(!stack.contains(shu[i])) {
+                stack.add(shu[i]);
+                f(list,stack,shu, targ, has+1, i);
+                stack.pop();
+            }
+        }
+
+    }
+
+    /**
+     * 新密码的规则8-30位，包括字母、数字和特殊符号的组合（三种都需要包含）
+     */
+    @Test
+    public void testSub(){
+        String reg = "001001";
+
+        System.out.println(reg.substring(0,100));
+    }
+
+    /**
+     * 新密码的规则8-30位，包括字母、数字和特殊符号的组合（三种都需要包含）
+     */
+    @Test
+    public void testPsd(){
+        String reg = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\\W]).{8,30}$";
+        String str = "@111111a";
+        System.out.println(str.matches(reg));
+    }
+
+    @Test
+    public void sort(){
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("a");
+        list.add("d");
+        list.add("a");
+        list.add("a");
+        list.add("e");
+        list.add("e");
+        list.add("b");
+        list.add("d");
+        list.remove("d");
+
+
+        System.out.println(list);
+    }
+
+
+    @Test
+    public void testExecute(){
+        String orderCode = "123121";
+        taskExecutor.execute(()->{
+            refundTask(orderCode);
+        });
+    }
+
+    public void refundTask(String orderCode){
+        log.info("异步执行完成orderCode"+orderCode);
+    }
+
+    @Test
+    public void testDecimalFormat(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        List<Double> tempCitysLists = Arrays.asList(
+                new BigDecimal("0.79").doubleValue(),
+                new BigDecimal("0.01").doubleValue(),
+                new BigDecimal("12.01").doubleValue(),
+                new BigDecimal("100").doubleValue(),
+                new BigDecimal("98").doubleValue(),
+                new BigDecimal("100.0").doubleValue(),
+                new BigDecimal("0.00").doubleValue(),
+                new BigDecimal("0").doubleValue()
+        );
+        for (int i = 0; i < tempCitysLists.size(); i++) {
+            double tmp = tempCitysLists.get(i);
+            String rate = df.format(tmp);
+            System.out.println(rate);
+        }
+    }
+
+
+    @Test
+    public void testList(){
+        List<String> finalOrderlist = Arrays.asList("","","1","2");
+        finalOrderlist = finalOrderlist.stream().collect(  Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.toString()))),
+                ArrayList::new));
+        System.out.println(finalOrderlist.size());
+    }
     /**
      * 校验参数合法性
      *
