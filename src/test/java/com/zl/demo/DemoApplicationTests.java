@@ -5,10 +5,6 @@ import com.google.common.base.Preconditions;
 import com.zl.demo.common.CryptUtil;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
-import com.zl.demo.pattern.StrategyContext;
-import com.zl.demo.pattern.impl.OperationAddByStrategy;
-import com.zl.demo.pattern.impl.OperationMultiplyByStrategy;
-import com.zl.demo.pattern.impl.OperationSubtractByStrategy;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -42,17 +38,6 @@ class DemoApplicationTests {
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
-    @Test
-    public void testStrategy(){
-        int numb1 = 10;
-        int numb2 = 2;
-        StrategyContext strategyContext = new StrategyContext(new OperationAddByStrategy());
-        strategyContext.executeStrategy(numb1,numb2);
-        strategyContext = new StrategyContext(new OperationSubtractByStrategy());
-        strategyContext.executeStrategy(numb1,numb2);
-        strategyContext = new StrategyContext(new OperationMultiplyByStrategy());
-        strategyContext.executeStrategy(numb1,numb2);
-    }
 
 
     @Test

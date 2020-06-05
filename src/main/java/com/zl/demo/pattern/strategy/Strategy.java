@@ -1,4 +1,4 @@
-package com.zl.demo.pattern;
+package com.zl.demo.pattern.strategy;
 
 /**
  * 策略模式
@@ -7,5 +7,5 @@ package com.zl.demo.pattern;
  * @date 2020/6/5 11:49
  */
 public interface Strategy {
-    public int doOperation(int num1,int numb2);
+    public int doOperation(int num1, int numb2);
 }

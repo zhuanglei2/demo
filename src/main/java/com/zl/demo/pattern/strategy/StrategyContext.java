@@ -1,4 +1,4 @@
-package com.zl.demo.pattern;
+package com.zl.demo.pattern.strategy;
 
 /**
  * @author zhuangl

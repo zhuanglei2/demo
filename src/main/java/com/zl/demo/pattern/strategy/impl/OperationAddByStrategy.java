@@ -1,6 +1,6 @@
-package com.zl.demo.pattern.impl;
+package com.zl.demo.pattern.strategy.impl;
 
-import com.zl.demo.pattern.Strategy;
+import com.zl.demo.pattern.strategy.Strategy;
 
 /**
  * 加法
