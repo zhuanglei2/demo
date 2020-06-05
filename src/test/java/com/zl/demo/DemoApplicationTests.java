@@ -5,12 +5,14 @@ import com.google.common.base.Preconditions;
 import com.zl.demo.common.CryptUtil;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
+import com.zl.demo.pattern.StrategyContext;
+import com.zl.demo.pattern.impl.OperationAddByStrategy;
+import com.zl.demo.pattern.impl.OperationMultiplyByStrategy;
+import com.zl.demo.pattern.impl.OperationSubtractByStrategy;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -23,10 +25,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
-import static org.springframework.classify.PatternMatcher.match;
 
 @Slf4j
 @SpringBootTest
@@ -42,6 +42,135 @@ class DemoApplicationTests {
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
+    @Test
+    public void testStrategy(){
+        int numb1 = 10;
+        int numb2 = 2;
+        StrategyContext strategyContext = new StrategyContext(new OperationAddByStrategy());
+        strategyContext.executeStrategy(numb1,numb2);
+        strategyContext = new StrategyContext(new OperationSubtractByStrategy());
+        strategyContext.executeStrategy(numb1,numb2);
+        strategyContext = new StrategyContext(new OperationMultiplyByStrategy());
+        strategyContext.executeStrategy(numb1,numb2);
+    }
+
+
+    @Test
+    public void testSubString(){
+        String str = "asdasdasdqwexznmiwjrer_conf={'5001254'}wqevcvxvqweqweaasdknk_conf={'3000'}asdkqwhheasdnn_conf={'5001'}";
+        String tmp = str;
+        int count = 0;
+        for (int i = 0; i < way2(str,"_conf={"); i++) {
+            tmp = tmp.substring(tmp.indexOf("_conf={")+8,tmp.length());
+            String number = tmp.substring(0,tmp.indexOf("'}"));
+            if(Integer.parseInt(number)>5000)count++;
+        }
+        System.out.println(count);
+    }
+
+    public static int way2(String st,String M) {
+        int count = (st.length()-st.replace(M, "").length())/M.length();
+        return count;
+    }
+
+
+    @Test
+    public void test1122(){
+        HashMap<String,String> list = new HashMap();
+        list.put("11","instit/brand/logo/meinian.jpg");
+        list.put("12","instit/brand/logo/ruici.jpg");
+        list.put("13","instit/brand/logo/aikang.jpg");
+        list.put("14","instit/brand/logo/cimin.jpg");
+        List<String> list1 = new ArrayList<>();
+        list1.add("11");
+        list1.add("12");
+        list1.add("13");
+        list1.add("14");
+        System.out.println(list1.contains("14"));
+        System.out.println(JSON.toJSONString(list));
+    }
+
+    @Test
+    public void tes1t(){
+        LinkedHashMap<String,Object> hashMap = new LinkedHashMap<>();
+        hashMap.put("dimensions",Arrays.asList("pro","预约人数","体检人数"));
+        List<Map<String,String>> list = new ArrayList<>();
+        LinkedHashMap<String,String> a = new LinkedHashMap();
+        a.put("pro","机构1");
+        a.put("预约人数","43");
+        a.put("体检人数","22");
+        list.add(a);
+        LinkedHashMap<String,String> b = new LinkedHashMap();
+        b.put("pro","机构2");
+        b.put("预约人数","433");
+        b.put("体检人数","222");
+        list.add(b);
+        hashMap.put("source",list);
+        System.out.println(JSON.toJSONString(hashMap));
+    }
+
+
+    @Test
+    public void test111333(){
+        List<UserBo> list = new ArrayList<>();
+        list.add(new UserBo(100, ""));
+        list.add(new UserBo(100, ""));
+        list.add(new UserBo(200, "Aao"));
+        list.add(new UserBo(300, "Mahesh"));
+        List<String> re = list.stream().map(UserBo::getUserName).collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(re));
+    }
+
+    /**
+     * 复杂的lambda
+     */
+    @Test
+    public void testComLambda(){
+        List<UserBo> list = new ArrayList<>();
+        list.add(new UserBo(100, "Mohan"));
+        list.add(new UserBo(100, "Sohan"));
+        list.add(new UserBo(200, "Aao"));
+        list.add(new UserBo(300, "Mahesh"));
+        list.add(new UserBo(400, "Mahesh"));
+        list.add(new UserBo(1000, "Mahesh"));
+        getOperationByShipmentIds(list);
+        getNotIncludeOperationByShipmentIds(list);
+        getSum(list);
+    }
+
+    private void getSum(List<UserBo> list) {
+        final int sum = list.stream().mapToInt(obj -> obj.getUserId()).sum();
+        log.info("list算总数为{}",sum);
+    }
+
+
+    /**
+     * 过滤+分组查询
+     * @param list
+     */
+    private void getNotIncludeOperationByShipmentIds(List<UserBo> list) {
+        List<Integer> ids = Arrays.asList(100,300);
+        List<UserBo> tmp = list;
+        List<UserBo> map = tmp
+                .stream()
+                .filter(op->!ids.contains(op.getUserId()))
+                .collect(Collectors.toList());
+        log.info("getNotIncludeOperationByShipmentIds"+JSON.toJSONString(map));
+    }
+
+    /***
+     * 传入数组ids，在list<Obj>上操作，找出Obj中id想匹配的，并且按照id进行collect成map(这里假设找出来的按照id不重复）
+     * @param list
+     */
+    public void getOperationByShipmentIds(List<UserBo> list){
+        List<Integer> ids = Arrays.asList(100,300);
+        List<UserBo> tmp = list;
+        Map<Integer, List<UserBo>> map = tmp
+                .stream()
+                .filter(op->ids.contains(op.getUserId()))
+                .collect(groupingBy(UserBo::getUserId));
+        log.info("getOperationByShipmentIds"+JSON.toJSONString(map));
+    }
 
     @Test
     public void testLambda(){
@@ -49,13 +178,22 @@ class DemoApplicationTests {
         list.add(new UserBo(100, "Mohan"));
         list.add(new UserBo(100, "Sohan"));
         list.add(new UserBo(300, "Mahesh"));
+        //排序
+        List<UserBo> sorts = list
+                .stream()
+                .sorted(Comparator.comparing(UserBo::getUserId).reversed())
+                .collect(Collectors.toList());
+        log.info("list排序"+JSON.toJSONString(sorts));
+        //过滤
+        List<UserBo> filters = list.stream().filter(u->u.getUserId()==100).collect(Collectors.toList());
+        log.info("list过滤"+JSON.toJSONString(filters));
         //分组
         Map<Integer,List<UserBo>> map = list.stream().collect(groupingBy(UserBo::getUserId));
         //根据某个属性去重
         list = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection
                 (()->new TreeSet<>(Comparator.comparing(o->o.getUserId()))),ArrayList::new));
-        log.info(JSON.toJSONString(list));
-        log.info(JSON.toJSONString(map));
+        log.info("list去重"+JSON.toJSONString(list));
+        log.info("list分组"+JSON.toJSONString(map));
     }
 
     @Test

@@ -38,4 +38,6 @@ public class MsgControlller {
         BaseResponse response = msgMailManage.sendMailAsync(req);
         return response;
     }
+
+
 }
