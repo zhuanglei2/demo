@@ -1,4 +1,4 @@
-package com.zl.demo.common;
+package com.zl.demo.common.util;
 
 import com.google.common.base.Preconditions;
 import com.zl.demo.component.SzValidator;

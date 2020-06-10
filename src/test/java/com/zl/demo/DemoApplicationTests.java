@@ -2,7 +2,7 @@ package com.zl.demo;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.zl.demo.common.CryptUtil;
+import com.zl.demo.common.util.CryptUtil;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
 import lombok.Data;

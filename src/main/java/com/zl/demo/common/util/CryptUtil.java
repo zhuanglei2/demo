@@ -1,4 +1,4 @@
-package com.zl.demo.common;
+package com.zl.demo.common.util;
 
 import com.zl.demo.aspect.Decrypt;
 import com.zl.demo.aspect.Encrypt;

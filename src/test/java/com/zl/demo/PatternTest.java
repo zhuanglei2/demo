@@ -4,6 +4,12 @@ import com.zl.demo.pattern.abstractFactory.AbstractFactory;
 import com.zl.demo.pattern.abstractFactory.Color;
 import com.zl.demo.pattern.abstractFactory.FactoryProducer;
 import com.zl.demo.pattern.abstractFactory.Shape;
+import com.zl.demo.pattern.build.Meal;
+import com.zl.demo.pattern.build.MealBuilder;
+import com.zl.demo.pattern.chain.AbstractLogger;
+import com.zl.demo.pattern.chain.ConsoleLogger;
+import com.zl.demo.pattern.chain.ErrorLogger;
+import com.zl.demo.pattern.chain.FileLogger;
 import com.zl.demo.pattern.strategy.StrategyContext;
 import com.zl.demo.pattern.strategy.impl.OperationAddByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationMultiplyByStrategy;
@@ -69,5 +75,42 @@ public class PatternTest {
         Color color3 = colorFactory.getColor("BLACK");
         //调用 Blue 的 fill 方法
         color3.fill();
+    }
+
+    /**
+     * 建造者模式
+     */
+    @Test
+    public void testBuild(){
+        MealBuilder mealBuilder = new MealBuilder();
+
+        Meal vegMeal = mealBuilder.prepareVegMeal();
+        System.out.println("Veg Meal");
+        vegMeal.showItems();
+        System.out.println("Total Cost: " +vegMeal.getCost());
+
+        Meal nonVegMeal = mealBuilder.prepareNonVegMeal();
+        System.out.println("\n\nNon-Veg Meal");
+        nonVegMeal.showItems();
+        System.out.println("Total Cost: " +nonVegMeal.getCost());
+    }
+
+    @Test
+    public void testChainPattern(){
+        AbstractLogger errorLogger = new ErrorLogger(AbstractLogger.ERROR);
+        AbstractLogger fileLogger = new FileLogger(AbstractLogger.DEBUG);
+        AbstractLogger consoleLogger = new ConsoleLogger(AbstractLogger.INFO);
+
+        errorLogger.setNextLogger(fileLogger);
+        fileLogger.setNextLogger(consoleLogger);
+
+        errorLogger.logMessage(AbstractLogger.INFO, "This is an information.");
+        System.out.println("INFO的责任链完成");
+        errorLogger.logMessage(AbstractLogger.DEBUG,
+                "This is a debug level information.");
+        System.out.println("DEBUG的责任链完成");
+        errorLogger.logMessage(AbstractLogger.ERROR,
+                "This is an error information.");
+        System.out.println("ERROR的责任链完成");
     }
 }
