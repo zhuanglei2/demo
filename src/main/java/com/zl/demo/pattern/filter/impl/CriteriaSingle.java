@@ -16,7 +16,7 @@ public class CriteriaSingle implements Criteria {
     public List<Person> meetCriteria(List<Person> persons) {
         List<Person> malePersons = new ArrayList<Person>();
         for (Person person : persons) {
-            if(person.getGender().equalsIgnoreCase("SINGLE")){
+            if(person.getMaritalStatus().equalsIgnoreCase("Single")){
                 malePersons.add(person);
             }
         }
