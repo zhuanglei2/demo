@@ -4,6 +4,8 @@ import com.zl.demo.pattern.abstractFactory.AbstractFactory;
 import com.zl.demo.pattern.abstractFactory.Color;
 import com.zl.demo.pattern.abstractFactory.FactoryProducer;
 import com.zl.demo.pattern.abstractFactory.Shape;
+import com.zl.demo.pattern.adapter.AudioPlayer;
+import com.zl.demo.pattern.adapter.impl.MediaAdapter;
 import com.zl.demo.pattern.build.Meal;
 import com.zl.demo.pattern.build.MealBuilder;
 import com.zl.demo.pattern.chain.AbstractLogger;
@@ -95,6 +97,9 @@ public class PatternTest {
         System.out.println("Total Cost: " +nonVegMeal.getCost());
     }
 
+    /**
+     * 责任链模式
+     */
     @Test
     public void testChainPattern(){
         AbstractLogger errorLogger = new ErrorLogger(AbstractLogger.ERROR);
@@ -112,5 +117,18 @@ public class PatternTest {
         errorLogger.logMessage(AbstractLogger.ERROR,
                 "This is an error information.");
         System.out.println("ERROR的责任链完成");
+    }
+
+    /**
+     * 适配者模式
+     */
+    @Test
+    public void testAdapter(){
+        AudioPlayer audioPlayer = new AudioPlayer();
+
+        audioPlayer.play("mp3", "beyond the horizon.mp3");
+        audioPlayer.play("mp4", "alone.mp4");
+        audioPlayer.play("vlc", "far far away.vlc");
+        audioPlayer.play("avi", "mind me.avi");
     }
 }
