@@ -6,12 +6,18 @@ import com.zl.demo.pattern.abstractFactory.FactoryProducer;
 import com.zl.demo.pattern.abstractFactory.Shape;
 import com.zl.demo.pattern.adapter.AudioPlayer;
 import com.zl.demo.pattern.adapter.impl.MediaAdapter;
+import com.zl.demo.pattern.bridge.Circle;
+import com.zl.demo.pattern.bridge.impl.GreenCircle;
+import com.zl.demo.pattern.bridge.impl.RedCircle;
 import com.zl.demo.pattern.build.Meal;
 import com.zl.demo.pattern.build.MealBuilder;
 import com.zl.demo.pattern.chain.AbstractLogger;
 import com.zl.demo.pattern.chain.ConsoleLogger;
 import com.zl.demo.pattern.chain.ErrorLogger;
 import com.zl.demo.pattern.chain.FileLogger;
+import com.zl.demo.pattern.filter.Criteria;
+import com.zl.demo.pattern.filter.Person;
+import com.zl.demo.pattern.filter.impl.*;
 import com.zl.demo.pattern.strategy.StrategyContext;
 import com.zl.demo.pattern.strategy.impl.OperationAddByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationMultiplyByStrategy;
@@ -19,6 +25,9 @@ import com.zl.demo.pattern.strategy.impl.OperationSubtractByStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhuangl
@@ -130,5 +139,58 @@ public class PatternTest {
         audioPlayer.play("mp4", "alone.mp4");
         audioPlayer.play("vlc", "far far away.vlc");
         audioPlayer.play("avi", "mind me.avi");
+    }
+
+    /**
+     * 桥接模式
+     */
+    @Test
+    public void testBridge(){
+        com.zl.demo.pattern.bridge.Shape redCircle = new Circle(100,100, 10, new RedCircle());
+        com.zl.demo.pattern.bridge.Shape greenCircle = new Circle(100,100, 10, new GreenCircle());
+
+        redCircle.draw();
+        greenCircle.draw();
+    }
+
+    /**
+     * 过滤器模式
+     */
+    @Test
+    public void filterBrige(){
+        List<Person> persons = new ArrayList<Person>();
+
+        persons.add(new Person("Robert","Male", "Single"));
+        persons.add(new Person("John","Male", "Married"));
+        persons.add(new Person("Laura","Female", "Married"));
+        persons.add(new Person("Diana","Female", "Single"));
+        persons.add(new Person("Mike","Male", "Single"));
+        persons.add(new Person("Bobby","Male", "Single"));
+
+        Criteria male = new CriteriaMale();
+        Criteria female = new CriteriaFemale();
+        Criteria single = new CriteriaSingle();
+        Criteria singleMale = new AndCriteria(single, male);
+        Criteria singleOrFemale = new OrCriteria(single, female);
+
+        System.out.println("Males: ");
+        printPersons(male.meetCriteria(persons));
+
+        System.out.println("\nFemales: ");
+        printPersons(female.meetCriteria(persons));
+
+        System.out.println("\nSingle Males: ");
+        printPersons(singleMale.meetCriteria(persons));
+
+        System.out.println("\nSingle Or Females: ");
+        printPersons(singleOrFemale.meetCriteria(persons));
+    }
+    public static void printPersons(List<Person> persons){
+        for (Person person : persons) {
+            System.out.println("Person : [ Name : " + person.getName()
+                    +", Gender : " + person.getGender()
+                    +", Marital Status : " + person.getMaritalStatus()
+                    +" ]");
+        }
     }
 }
