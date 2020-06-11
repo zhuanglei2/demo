@@ -15,9 +15,11 @@ import com.zl.demo.pattern.chain.AbstractLogger;
 import com.zl.demo.pattern.chain.ConsoleLogger;
 import com.zl.demo.pattern.chain.ErrorLogger;
 import com.zl.demo.pattern.chain.FileLogger;
+import com.zl.demo.pattern.composite.Employee;
 import com.zl.demo.pattern.filter.Criteria;
 import com.zl.demo.pattern.filter.Person;
 import com.zl.demo.pattern.filter.impl.*;
+import com.zl.demo.pattern.prototype.ShapeCache;
 import com.zl.demo.pattern.strategy.StrategyContext;
 import com.zl.demo.pattern.strategy.impl.OperationAddByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationMultiplyByStrategy;
@@ -191,6 +193,53 @@ public class PatternTest {
                     +", Gender : " + person.getGender()
                     +", Marital Status : " + person.getMaritalStatus()
                     +" ]");
+        }
+    }
+
+    @Test
+    public void testPrototype(){
+        ShapeCache.loadCache();
+
+        com.zl.demo.pattern.prototype.Shape clonedShape = (com.zl.demo.pattern.prototype.Shape) ShapeCache.getShape("1");
+        System.out.println("Shape : " + clonedShape.getType());
+
+        com.zl.demo.pattern.prototype.Shape clonedShape2 = (com.zl.demo.pattern.prototype.Shape) ShapeCache.getShape("2");
+        System.out.println("Shape : " + clonedShape2.getType());
+
+        com.zl.demo.pattern.prototype.Shape clonedShape3 = (com.zl.demo.pattern.prototype.Shape) ShapeCache.getShape("3");
+        System.out.println("Shape : " + clonedShape3.getType());
+    }
+
+    @Test
+    public void testComposite(){
+        Employee CEO = new Employee("John","CEO", 30000);
+
+        Employee headSales = new Employee("Robert","Head Sales", 20000);
+
+        Employee headMarketing = new Employee("Michel","Head Marketing", 20000);
+
+        Employee clerk1 = new Employee("Laura","Marketing", 10000);
+        Employee clerk2 = new Employee("Bob","Marketing", 10000);
+
+        Employee salesExecutive1 = new Employee("Richard","Sales", 10000);
+        Employee salesExecutive2 = new Employee("Rob","Sales", 10000);
+
+        CEO.add(headSales);
+        CEO.add(headMarketing);
+
+        headSales.add(salesExecutive1);
+        headSales.add(salesExecutive2);
+
+        headMarketing.add(clerk1);
+        headMarketing.add(clerk2);
+
+        //打印该组织的所有员工
+        System.out.println(CEO);
+        for (Employee headEmployee : CEO.getSubordinates()) {
+            System.out.println("headEmployee:"+headEmployee);
+            for (Employee employee : headEmployee.getSubordinates()) {
+                System.out.println("employee:"+employee);
+            }
         }
     }
 }
