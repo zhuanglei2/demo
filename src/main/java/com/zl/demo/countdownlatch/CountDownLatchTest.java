@@ -42,7 +42,7 @@ public class CountDownLatchTest {
         @Override
         public void run() {
             cdl.countDown();
-            System.out.println(JSON.toJSONString(object)+"并发测试的任务开始");
+            System.out.println("第"+JSON.toJSONString(object)+"次并发测试的任务开始");
             try {
                 Map<String,Object> map = new HashMap<>();
                 map.put("szUserId","14109713479");
@@ -57,7 +57,7 @@ public class CountDownLatchTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(JSON.toJSONString(object)+"并发测试的任务结束");
+            System.out.println("第"+JSON.toJSONString(object)+"次并发测试的任务结束");
         }
     }
 }
