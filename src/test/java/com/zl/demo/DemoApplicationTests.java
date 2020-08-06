@@ -1,6 +1,7 @@
 package com.zl.demo;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Preconditions;
 import com.zl.demo.common.util.CryptUtil;
 import com.zl.demo.component.SzValidator;
@@ -39,6 +40,14 @@ class DemoApplicationTests {
     private ThreadPoolTaskExecutor taskExecutor;
 
 
+    @Test
+    public void test1123(){
+        String text ="{\n" +
+                "\"addGoodsItemBos\":[{\"checkItemCodes\":[\"PE159\"],\"goodsCode\":\"GDS878344259\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE224\"],\"goodsCode\":\"GDS301351538\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE156\"],\"goodsCode\":\"GDS351256157\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE243\"],\"goodsCode\":\"GDS227157720\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE157\"],\"goodsCode\":\"GDS126629915\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE242\"],\"goodsCode\":\"GDS628853736\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE213\"],\"goodsCode\":\"GDS481259482\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE93\"],\"goodsCode\":\"GDS434205518\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE232\"],\"goodsCode\":\"GDS128793626\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE202\"],\"goodsCode\":\"GDS492278983\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE191\"],\"goodsCode\":\"GDS678212418\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE108\"],\"goodsCode\":\"GDS933059827\",\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE110\"],\"goodsCode\":\"GDS694283485\",\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE97\"],\"goodsCode\":\"GDS060124488\",\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE110\"],\"goodsCode\":\"GDS994228113\",\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE205\"],\"goodsCode\":\"GDS077651496\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":0},{\"checkItemCodes\":[\"PE52\"],\"goodsCode\":\"GDS492178250\",\"goodsSaleOriginPrice\":20,\"goodsSalePrice\":10},{\"checkItemCodes\":[\"PE118\"],\"goodsCode\":\"GDS030889982\",\"goodsSaleOriginPrice\":20,\"goodsSalePrice\":10},{\"checkItemCodes\":[\"PE96\",\"PE93\"],\"goodsCode\":\"GDS305480976\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":20},{\"checkItemCodes\":[\"PE230\"],\"goodsCode\":\"GDS965248361\",\"goodsSaleOriginPrice\":10,\"goodsSalePrice\":1000}]}";
+        System.out.println(JSON.toJSONString(text));
+        System.out.println(JSON.toJSONString(JSON.parse(text)));
+        System.out.println(JSON.toJSONString(JSON.parse(text)));
+    }
 
     @Test
     public void testSubString(){

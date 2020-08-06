@@ -1,5 +1,8 @@
 package com.zl.demo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zl.demo.pattern.abstractFactory.AbstractFactory;
 import com.zl.demo.pattern.abstractFactory.Color;
 import com.zl.demo.pattern.abstractFactory.FactoryProducer;
@@ -24,12 +27,19 @@ import com.zl.demo.pattern.strategy.StrategyContext;
 import com.zl.demo.pattern.strategy.impl.OperationAddByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationMultiplyByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationSubtractByStrategy;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.CollectionUtils;
+import sun.util.calendar.CalendarUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zhuangl
@@ -39,6 +49,105 @@ import java.util.List;
 @Slf4j
 @SpringBootTest
 public class PatternTest {
+
+    @Test
+    public void testJson(){
+        String str = "";
+        String brandCodeStr = StringUtils.join(Arrays.asList(str),"\\|");
+        System.out.println(brandCodeStr);
+        System.out.println(CollectionUtils.isEmpty(Arrays.asList(str)));
+    }
+
+    @Test
+    public void testArrayList(){
+        String text = "/img/banner/banner_1.jpg,/img/banner/banner_2.jpg,/img/banner/banner_3.jpg";
+        String text1 = "/img/banner/banner_1.jpg";
+        final String[] split = text.split(",");
+        System.out.println(JSON.toJSONString(split));
+        List<String> bannersList = Arrays.asList(text1);
+        System.out.println(JSON.toJSONString(bannersList));
+    }
+
+    @Test
+    public void sort() throws InterruptedException {
+        List<Date1> list = new ArrayList<>();
+        Date1 d = new Date1();
+        Date1 d2 = new Date1();
+        d.setA("GDS846707560");
+        d2.setA("GDS253059089");
+        list.add(d);
+        list.add(d2);
+
+        list = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(
+                () -> new TreeSet<>(Comparator.comparing(Date1::getA))), ArrayList::new));
+        System.out.println(JSON.toJSONString(list));
+    }
+
+    @Data
+    public class Date1{
+        String a ;
+
+    }
+
+    @Test
+    public void test123() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(1594310400000L);
+        System.out.println(sdf.format(date));
+        String dateStr = sdf.format(date);
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(sdf.parse(dateStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        calendar.add(Calendar.DATE, -1);
+        String newDateStr = sdf.format(calendar.getTime());
+        newDateStr = newDateStr + " " + "12:00:00";
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1 = sdf1.parse(newDateStr);
+        Date now = new Date();
+        System.out.println(!(now.getTime() < d1.getTime()));
+    }
+
+    private void de(Long a, Long b){
+        if(a>=b){
+            b = 0L;
+        }else {
+            b -= a;
+        }
+    }
+
+    private void add(Long a, Dest b){
+        b.setB(a+b.getB());
+    }
+
+    public static final Date getDateWithAddHours(Date date, int amount) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(11, amount);
+        return calendar.getTime();
+    }
+    public static final Date getDateWithAddDays(Date date, int amount) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(5, amount);
+        return calendar.getTime();
+    }
+
+    public static final Date getWithoutTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(11, 0);
+        calendar.set(12, 0);
+        calendar.set(13, 0);
+        calendar.set(14, 0);
+        return calendar.getTime();
+    }
+    @Data
+    public class Dest{
+        long b;
+    }
 
     /**
      * 策略模式
