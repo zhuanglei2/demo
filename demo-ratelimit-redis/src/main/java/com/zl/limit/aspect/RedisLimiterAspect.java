@@ -49,9 +49,9 @@ public class RedisLimiterAspect {
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Method method = methodSignature.getMethod();
         // 通过 AnnotationUtils.findAnnotation 获取 RateLimiter 注解
-//        RateLimiter rateLimiter = AnnotationUtils.findAnnotation(method, RateLimiter.class);
-        if(method.isAnnotationPresent(RateLimit.class)){
-            final RateLimit rateLimit = method.getAnnotation(RateLimit.class);
+        RateLimit rateLimit = AnnotationUtils.findAnnotation(method, RateLimit.class);
+//        if(method.isAnnotationPresent(RateLimit.class)){
+//            final RateLimit rateLimit = method.getAnnotation(RateLimit.class);
             if(rateLimit!=null){
                 String key = rateLimit.key();
                 //默认方法用类+方法名做限流 key前缀
@@ -69,7 +69,7 @@ public class RedisLimiterAspect {
                     throw new RuntimeException("手速太快了，慢点儿吧~");
                 }
             }
-        }
+//        }
         return point.proceed();
     }
 
