@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Preconditions;
 import com.zl.demo.common.util.CryptUtil;
+import com.zl.demo.common.util.ImageUtils;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
 import lombok.Data;
@@ -17,9 +18,15 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,11 +49,36 @@ class DemoApplicationTests {
     private ThreadPoolTaskExecutor taskExecutor;
 
 
+    @Test
+    public void testDate() throws  IOException {
+        File input = new File("C:\\Users\\Shanzhen\\Desktop\\zl.jpeg");
+        File output = new File("C:\\Users\\Shanzhen\\Desktop\\3.jpeg");
+        BufferedImage image = ImageIO.read(input);
+
+
+        BufferedImage result = ImageUtils.imageCutByRectangle(image, 1400,900);
+        String suffix = input.getName().substring(input.getName().lastIndexOf(".") + 1);
+        ImageIO.write(result, suffix, output);
+
+    }
+
 
     @Test
     public void test1123(){
-        Integer u = null;
-        System.out.println(1==u);
+       List<UserBo> list = new ArrayList<>();
+       list.add(new UserBo(1,"2"));
+       list.add(new UserBo(2,"2"));
+       list.add(new UserBo(2,"2"));
+       list.add(new UserBo(3,"2"));
+       list.add(new UserBo(3,"2"));
+       list.add(new UserBo(3,"2"));
+       list.add(new UserBo(4,"2"));
+       list = list.stream().distinct().collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(list));
+    }
+
+    private void getTest(String a) {
+        a="123";
     }
 
     @Test
