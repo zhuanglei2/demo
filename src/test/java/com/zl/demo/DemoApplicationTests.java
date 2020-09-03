@@ -51,12 +51,12 @@ class DemoApplicationTests {
 
     @Test
     public void testDate() throws  IOException {
-        File input = new File("C:\\Users\\Shanzhen\\Desktop\\zl.jpeg");
-        File output = new File("C:\\Users\\Shanzhen\\Desktop\\3.jpeg");
+        File input = new File("C:\\Users\\Shanzhen\\Desktop\\1.jpg");
+        File output = new File("C:\\Users\\Shanzhen\\Desktop\\3.jpg");
         BufferedImage image = ImageIO.read(input);
 
 
-        BufferedImage result = ImageUtils.imageCutByRectangle(image, 1400,900);
+        BufferedImage result = ImageUtils.imageCutByRectangle(image, 750,1206);
         String suffix = input.getName().substring(input.getName().lastIndexOf(".") + 1);
         ImageIO.write(result, suffix, output);
 
