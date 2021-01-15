@@ -191,6 +191,40 @@ public class HttpClientUtils {
     }
 
     /**
+     * GET方式获取请求内容
+     * @param url 请求地址
+     * @param params 请求参数
+     * @param charset 编码
+     * @return 请求结果内容
+     */
+    public static String getImage(String url, final Map<String, Object> params, final String charset) {
+        CloseableHttpResponse response = null;
+        try {
+            final String fullUrl = url + "?" + setGetParams(params, charset);
+            HttpGet httpGet = new HttpGet(fullUrl);
+            setImageConfig(httpGet);
+            response = getHttpClient(fullUrl).execute(httpGet, HttpClientContext.create());
+            HttpEntity entity = response.getEntity();
+            String result = EntityUtils.toString(entity, charset);
+            return result;
+        } catch (IOException e) {
+            LOGGER.error("GET方式获取请求内容-请求IO异常.", e);
+        } catch (Exception e) {
+            LOGGER.error("GET方式获取请求内容-请求异常.", e);
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    LOGGER.error("GET方式获取请求内容-关闭请求IO异常.", e);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * 获取{@link HttpClient}对象
      * @param url 请求URL
      * @return {@link CloseableHttpClient}
@@ -341,4 +375,25 @@ public class HttpClientUtils {
                 .build();
         httpRequestBase.setConfig(requestConfig);
     }
+    /**
+     * 设置连接的参数
+     * @param httpRequestBase {@link HttpRequestBase}
+     */
+    private static void setImageConfig(HttpRequestBase httpRequestBase) {
+        // 设置Header
+        httpRequestBase.setHeader("Accept-Ranges", "bytes");
+        httpRequestBase.setHeader("Cache-control", "max-age=604800");
+        httpRequestBase.setHeader("Connection", "keep-alive");
+        httpRequestBase.setHeader("Content-Length", "28026");
+        httpRequestBase.setHeader("Content-Type", "image/jpg");
+        httpRequestBase.setHeader("Content-Length", "28026");
+        // 配置请求的超时时间
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectionRequestTimeout(DEFAULT_CONN_TIMEOUT) // http clilent中从connetcion pool中获得一个connection的超时时间
+                .setConnectTimeout(DEFAULT_CONN_TIMEOUT) // 连接建立的超时时间
+                .setSocketTimeout(DEFAULT_SO_TIMEOUT) // 响应超时时间，超过此时间不再读取响应
+                .build();
+        httpRequestBase.setConfig(requestConfig);
+    }
+
 }

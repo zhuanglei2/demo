@@ -1,8 +1,21 @@
 package com.zl.demo;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import com.zl.demo.common.util.ImgBase64Util;
+import com.zl.demo.common.util.JaxpUtil;
+import com.zl.demo.dto.PMResponseInfo;
+import com.zl.demo.dto.wechat.WeChatTextMsg;
 import com.zl.demo.pattern.abstractFactory.AbstractFactory;
 import com.zl.demo.pattern.abstractFactory.Color;
 import com.zl.demo.pattern.abstractFactory.FactoryProducer;
@@ -31,15 +44,19 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.CollectionUtils;
+import sun.misc.BASE64Encoder;
 import sun.util.calendar.CalendarUtils;
 
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * @author zhuangl
@@ -49,6 +66,330 @@ import java.util.stream.Collectors;
 @Slf4j
 @SpringBootTest
 public class PatternTest {
+
+    private static List<IndicationBo> indicationBos = new ArrayList<>();
+
+
+    @Test
+    public void testUUID(){
+       List<String> list = Arrays.asList("GDS532947726","GDS131995632","GDS609505131","GDS817060610");
+        System.out.println(list.subList(0,2));
+        System.out.println(list.subList(2,4));
+    }
+
+    @Test
+    public void readSimple(){
+        // 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
+        // 写法1：
+        String fileName = "C:\\Users\\Shanzhen\\Desktop\\json按照指标汇总.xlsx";
+        // 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
+        EasyExcel.read(fileName, IndicationIndex.class, new DemoDataListener()).sheet().doRead();
+    }
+
+    // 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
+    class DemoDataListener extends AnalysisEventListener<IndicationIndex> {
+        List<IndicationIndex> list = new ArrayList<>();
+        /**
+         * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
+         */
+        private final int BATCH_COUNT = 500;
+
+        public DemoDataListener() {
+        }
+
+        /**
+         * 这个每一条数据解析都会来调用
+         *
+         * @param data
+         *            one row value. Is is same as {@link AnalysisContext#readRowHolder()}
+         * @param context
+         */
+        @Override
+        public void invoke(IndicationIndex data, AnalysisContext context) {
+//            log.info("解析到一条数据:{}", JSON.toJSONString(data));
+            list.add(data);
+        }
+
+        /**
+         * 所有数据解析完成了 都会来调用
+         *
+         * @param context
+         */
+        @Override
+        public void doAfterAllAnalysed(AnalysisContext context) {
+            // 这里也要保存数据，确保最后遗留的数据也存储到数据库
+            saveData();
+
+            list = list.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(IndicationIndex::getTitle))),ArrayList::new));
+            list.forEach(indicationIndex -> {
+                IndicationBo tmp = new IndicationBo();
+                BeanUtils.copyProperties(indicationIndex,tmp);
+                indicationBos.add(tmp);
+            });
+            System.out.println(JSON.toJSONString(indicationBos));
+        }
+
+        /**
+         * 加上存储数据库
+         */
+        private void saveData() {
+            log.info("{}条数据，开始存储数据库！", list.size());
+            log.info("存储数据库成功！");
+        }
+    }
+
+    @Test
+    public void simpleWrite02() throws IOException {
+        File file = new File("C:\\Users\\Shanzhen\\Desktop\\健康百科\\xh.json");
+        FileReader fileReader = new FileReader(file);
+        Reader reader = new InputStreamReader(new FileInputStream(file),"utf-8");
+        int ch = 0;
+        StringBuffer sb = new StringBuffer();
+        while ((ch = reader.read()) != -1) {
+            sb.append((char) ch);
+        }
+        fileReader.close();
+        reader.close();
+        String jsonStr = sb.toString();
+        List<Kk> indications = JSONArray.parseArray(jsonStr,Kk.class);
+        List<IndicationIndex> indicationIndices = new ArrayList<>();
+
+        System.out.println(JSON.toJSONString(indications));
+        indications.forEach(i->{
+            final KkContent content = i.getContent();
+            final List<KkContext> contents = content.getContents();
+            contents.forEach(c->{
+                final String subtitle = c.getSubtitle();
+                final List<Description> description = c.getDescription();
+                for (int j = 1; j < description.size(); j++) {
+                    final List<Detail> details = description.get(j).getDetails();
+                    final String name = description.get(j).getName();
+                    details.forEach(d->{
+                        IndicationIndex tmp = new IndicationIndex();
+                        tmp.setSummary(description.get(0).getDetails().get(0).getDetail());
+                        tmp.setTitle(subtitle);
+                        tmp.setName(name);
+                        tmp.setTexts(d.getDetail());
+                        indicationIndices.add(tmp);
+                    });
+                }
+            });
+        });
+
+
+        // 写法1
+        String fileName = "C:\\Users\\Shanzhen\\Desktop\\" + "simpleWrite" + System.currentTimeMillis() + ".xlsx";
+        // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+        // 如果这里想使用03 则 传入excelType参数即可
+        EasyExcel.write(fileName, IndicationIndex.class).sheet("模板").doWrite(indicationIndices);
+    }
+
+    @Test
+    public void simpleWrite() throws IOException {
+        File file = new File("C:\\Users\\Shanzhen\\Desktop\\健康百科\\20201215.json");
+        FileReader fileReader = new FileReader(file);
+        Reader reader = new InputStreamReader(new FileInputStream(file),"utf-8");
+        int ch = 0;
+        StringBuffer sb = new StringBuffer();
+        while ((ch = reader.read()) != -1) {
+            sb.append((char) ch);
+        }
+        fileReader.close();
+        reader.close();
+        String jsonStr = sb.toString();
+        List<Indication> indications = JSONArray.parseArray(jsonStr,Indication.class);
+
+        System.out.println(JSON.toJSONString(indications));
+        List<IndicationIndex> indicationIndices = new ArrayList<>();
+
+        indications.forEach(i->{
+            Content content = i.getContent();
+            String title = content.getTitle();
+            String summary = content.getSummary();
+            List<Paragraphs> paragraphs = i.getContent().getParagraphs();
+            paragraphs.forEach(p->{
+                IndicationIndex tmp = new IndicationIndex();
+                tmp.setSummary(summary);
+                tmp.setTitle(title);
+                tmp.setName(p.getTitle());
+                tmp.setTexts(StringUtils.join(p.getTexts(),";"));
+                indicationIndices.add(tmp);
+            });
+        });
+
+
+        // 写法1
+        String fileName = "C:\\Users\\Shanzhen\\Desktop\\" + "simpleWrite" + System.currentTimeMillis() + ".xlsx";
+        // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+        // 如果这里想使用03 则 传入excelType参数即可
+        EasyExcel.write(fileName, IndicationIndex.class).sheet("模板").doWrite(indicationIndices);
+    }
+    private List<DemoData> data() {
+        List<DemoData> list = new ArrayList<DemoData>();
+        for (int i = 0; i < 10; i++) {
+            DemoData data = new DemoData();
+            data.setString("字符串" + i);
+            data.setDate(new Date());
+            data.setDoubleData(0.56);
+            list.add(data);
+        }
+        return list;
+    }
+
+
+
+    @Data
+    public class DemoData {
+        @ExcelProperty("字符串标题")
+        private String string;
+        @ExcelProperty("日期标题")
+        private Date date;
+        @ExcelProperty("数字标题")
+        private Double doubleData;
+        /**
+         * 忽略这个字段
+         */
+        @ExcelIgnore
+        private String ignore;
+    }
+    @Test
+    public void toBase64(){
+        final String imgStr = ImgBase64Util.getImgStr("C:\\Users\\Shanzhen\\Desktop\\1.gif");
+        log.info("{}",imgStr);
+//        InputStream in = null;
+//        byte[] data = null;
+//        try {
+//            in = new FileInputStream("C:\\Users\\Shanzhen\\Desktop\\1.gif");
+//            data = new byte[in.available()];
+//            in.read(data);
+//            in.close();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        // 对字节数组进行Base64编码，得到Base64编码的字符串
+//        BASE64Encoder encoder = new BASE64Encoder();
+//        String base64Str = encoder.encode(data);
+        File file = new File("C:\\Users\\Shanzhen\\Desktop\\1.txt");
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            out.write(imgStr);
+            out.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Data
+    public static class Indication implements Serializable{
+        @ExcelProperty("编号")
+        private String _id;
+        @ExcelProperty("内容")
+        private Content content;
+
+    }
+    @Data
+    public static class Content implements Serializable{
+        private List<Paragraphs> paragraphs;
+        private String summary;
+        private String title;
+    }
+    @Data
+    public static class Paragraphs implements Serializable{
+        private List<String> texts;
+        private String title;
+    }
+
+    @Data
+    public static class Kk implements Serializable{
+        private String _id;
+        private KkContent content;
+    }
+
+    @Data
+    public static class KkContent implements Serializable{
+        private String title;
+        private List<KkContext> contents;
+    }
+
+    @Data
+    public static class KkContext implements Serializable{
+        private List<Description> description;
+        private String subtitle;
+    }
+
+    @Data
+    public static class Description implements Serializable{
+        private List<Detail> details;
+        private String name;
+    }
+
+    @Data
+    public static class Detail implements Serializable{
+        private String detail;
+    }
+    @Data
+    public static class IndicationIndex implements Serializable{
+        @ColumnWidth(15)
+        @ExcelProperty("指标名称")
+        private String title;
+        @ColumnWidth(80)
+        @ExcelProperty("指标说明")
+        private String summary;
+        @ColumnWidth(15)
+        @ExcelProperty("模块名称")
+        private String name;
+        @ColumnWidth(200)
+        @ExcelProperty("模块内容")
+        private String texts;
+    }
+    @Data
+    public static class IndicationBo implements Serializable{
+        @ColumnWidth(15)
+        @ExcelProperty("指标名称")
+        private String title;
+        @ColumnWidth(80)
+        @ExcelProperty("指标说明")
+        private String summary;
+        @ColumnWidth(15)
+        @ExcelProperty("模块名称")
+        private String name;
+
+    }
+
+    @Test
+    public void toXml() throws Exception {
+        WeChatTextMsg weChatTextMsg = new WeChatTextMsg();
+        weChatTextMsg.setToUserName("123");
+        weChatTextMsg.setContent("content");
+        weChatTextMsg.setCreateTime("2020年11月10日09:20:28");
+        weChatTextMsg.setFromUserName("zhuanglei");
+        weChatTextMsg.setMsgType("1");
+
+        String msg = JaxpUtil.toXML(weChatTextMsg);
+        log.info("result:{}",JSON.toJSONString(msg));
+//        final PMResponseInfo pmResponseInfo1 = JaxpUtil.fromXML(msg, PMResponseInfo.class);
+//        log.info("object:{}",JSON.toJSONString(pmResponseInfo1));
+    }
+
+
+    @Test
+    public void testCom(){
+        List<Long> orderAddGoodsBos = new ArrayList<>();
+        orderAddGoodsBos.add(1L);
+        orderAddGoodsBos.add(2L);
+        orderAddGoodsBos.add(3L);
+        orderAddGoodsBos.add(4L);
+
+        Long addGoodsPrice = 0L;
+        addGoodsPrice = orderAddGoodsBos.stream()
+                .mapToLong(p -> {
+                    return p.longValue()+1;
+                })
+                .sum();
+        System.out.println(addGoodsPrice);
+    }
 
     @Test
     public void testJson(){

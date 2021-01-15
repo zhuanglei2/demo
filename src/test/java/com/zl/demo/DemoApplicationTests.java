@@ -7,6 +7,8 @@ import com.zl.demo.common.util.CryptUtil;
 import com.zl.demo.common.util.ImageUtils;
 import com.zl.demo.component.SzValidator;
 import com.zl.demo.dto.Apple;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +52,135 @@ class DemoApplicationTests {
 
 
     @Test
-    public void testDate() throws  IOException {
+    public void testMax(){
+        List<GoodsDo> goodsList = new ArrayList<>();
+        GoodsDo d1 = new GoodsDo("1",300L);
+        GoodsDo d2 = new GoodsDo("2",400L);
+        goodsList.add(d1);
+        goodsList.add(d2);
+        GoodsDo goodsDo = goodsList.stream()
+        .max(Comparator.comparing(GoodsDo::getSalePrice)).get();
+        System.out.println(goodsDo);
+    }
+
+    @Data
+    @AllArgsConstructor
+    class GoodsDo{
+        private String goodsCode;
+        private Long salePrice;
+    }
+
+    @Test
+    public void testCompare(){
+        boolean a = false;
+        String j = getJ(a);
+        System.out.println(a);
+    }
+
+    private String getJ(boolean a) {
+        a = true;
+        return "123";
+    }
+
+
+    @Test
+    public void testAddDate(){
+        Date afterDate = new Date(new Date().getTime() + 600000);
+        System.out.println(afterDate);
+    }
+
+    @Test
+    public void testLong(){
+        Long a = 1L;
+        add(a);
+        System.out.println(a);
+    }
+
+    private void add(Long a) {
+        a = a+1L;
+    }
+
+
+    @Test
+    public void testJson(){
+        PayedMsgDto payedMsgDto = new PayedMsgDto();
+        List<String> list = new ArrayList<>();
+        list.add("299514967027");
+        payedMsgDto.setOrderCodes(list);
+        System.out.println(JSON.toJSONString(payedMsgDto));
+        System.out.println(new BigDecimal(0L).movePointLeft(3).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+    }
+    @Data
+    public static class PayedMsgDto{
+        private List<String> orderCodes;
+    }
+
+    @Test
+    public void testBigDecimal(){
+        BigDecimal a = new BigDecimal("0");
+        BigDecimal b = new BigDecimal("10");
+        BigDecimal total = a.subtract(b);
+        /**20200927 新增逻辑：如果语音加项包金额为空,且prePayAmt不为0，默认选择*/
+        if(total.equals(new BigDecimal("0"))){
+            if(b.compareTo(new BigDecimal("0"))>0){
+                System.out.println("true");
+            }
+        }
+    }
+
+
+    @Test
+    public void testSub1(){
+        List<String> orderCodes = new ArrayList<>();
+        orderCodes.add("596987982112");
+        PayedMsgDto payedMsgDto = new PayedMsgDto();
+        payedMsgDto.setOrderCodes(orderCodes);
+        String str = JSON.toJSONString(payedMsgDto);
+        Map map = (Map) JSON.parse(JSON.toJSONString(payedMsgDto));
+        orderCodes = (List<String>) map.get("orderCodes");
+        System.out.println(orderCodes);
+    }
+
+
+    @Test
+    public void testFilter(){
+        List<Apple> list = new ArrayList<>();
+        Apple apple = new Apple();
+        apple.setName("1");
+        Apple apple1 = new Apple();
+        apple1.setName("0");
+        Apple apple2 = new Apple();
+        apple2.setName("0");
+        list.add(apple);
+        list.add(apple1);
+        list.add(apple2);
+        list.add(apple2);
+        List<Apple> aa = list.stream().sorted(Comparator.comparing(Apple::getName)).collect(Collectors.toList());
+        System.out.println(aa);
+    }
+
+    /**
+     * lambda分页
+     */
+    @Test
+    public void testLambdaLimit(){
+        List<Apple> list = new ArrayList<>();
+        Apple apple = new Apple();
+        apple.setName("apple");
+        Apple apple1 = new Apple();
+        apple1.setName("apple");
+        Apple apple2 = new Apple();
+        apple2.setName("apple2");
+        list.add(apple);
+        list.add(apple1);
+        list.add(apple2);
+        list.add(apple2);
+        List<String> result = list.stream().map(Apple::getName).collect(Collectors.toList());
+        System.out.println(result);
+    }
+
+    @Test
+    public void testCutImage() throws  IOException {
         File input = new File("C:\\Users\\Shanzhen\\Desktop\\1.jpg");
         File output = new File("C:\\Users\\Shanzhen\\Desktop\\3.jpg");
         BufferedImage image = ImageIO.read(input);
