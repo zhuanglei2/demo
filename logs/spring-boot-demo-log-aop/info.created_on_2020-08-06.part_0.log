@@ -1,0 +1,68 @@
+2020-08-06 20:36:42,328 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:55 - Starting DemoLogAopApplication on Shanzhen-PC with PID 13052 (C:\Users\Shanzhen\IdeaProjects\demo\demo\demo-log-aop\target\classes started by Shanzhen in C:\Users\Shanzhen\IdeaProjects\demo\demo)
+2020-08-06 20:36:42,331 [main] INFO  [com.zl.log.DemoLogAopApplication] SpringApplication.java:651 - No active profile set, falling back to default profiles: default
+2020-08-06 20:36:43,471 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:108 - Tomcat initialized with port(s): 8080 (http)
+2020-08-06 20:36:43,482 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-08-06 20:36:43,484 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-06 20:36:43,486 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - An older version [1.2.16] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.23]
+2020-08-06 20:36:43,486 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - Loaded Apache Tomcat Native library [1.2.16] using APR version [1.6.3].
+2020-08-06 20:36:43,486 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2020-08-06 20:36:43,487 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2020-08-06 20:36:44,571 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - OpenSSL successfully initialized [OpenSSL 1.0.2m  2 Nov 2017]
+2020-08-06 20:36:44,740 [main] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-08-06 20:36:44,740 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] ServletWebServerApplicationContext.java:285 - Root WebApplicationContext: initialization completed in 2355 ms
+2020-08-06 20:36:45,048 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-08-06 20:36:45,353 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:220 - Tomcat started on port(s): 8080 (http) with context path '/demo'
+2020-08-06 20:36:45,366 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:61 - Started DemoLogAopApplication in 4.094 seconds (JVM running for 4.625)
+2020-08-06 20:37:38,308 [http-nio-8080-exec-3] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-06 20:37:38,309 [http-nio-8080-exec-3] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-08-06 20:37:38,349 [http-nio-8080-exec-3] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 40 ms
+2020-08-06 20:43:08,414 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:55 - Starting DemoLogAopApplication on Shanzhen-PC with PID 14204 (C:\Users\Shanzhen\IdeaProjects\demo\demo\demo-log-aop\target\classes started by Shanzhen in C:\Users\Shanzhen\IdeaProjects\demo\demo)
+2020-08-06 20:43:08,418 [main] INFO  [com.zl.log.DemoLogAopApplication] SpringApplication.java:651 - No active profile set, falling back to default profiles: default
+2020-08-06 20:43:09,837 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:108 - Tomcat initialized with port(s): 8080 (http)
+2020-08-06 20:43:09,851 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-08-06 20:43:09,852 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-06 20:43:09,854 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - An older version [1.2.16] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.23]
+2020-08-06 20:43:09,854 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - Loaded Apache Tomcat Native library [1.2.16] using APR version [1.6.3].
+2020-08-06 20:43:09,855 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2020-08-06 20:43:09,856 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2020-08-06 20:43:10,929 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - OpenSSL successfully initialized [OpenSSL 1.0.2m  2 Nov 2017]
+2020-08-06 20:43:11,012 [main] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-08-06 20:43:11,012 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] ServletWebServerApplicationContext.java:285 - Root WebApplicationContext: initialization completed in 2501 ms
+2020-08-06 20:43:11,386 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-08-06 20:43:11,573 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:220 - Tomcat started on port(s): 8080 (http) with context path '/demo'
+2020-08-06 20:43:11,586 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:61 - Started DemoLogAopApplication in 4.221 seconds (JVM running for 5.111)
+2020-08-06 20:43:35,448 [http-nio-8080-exec-1] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-06 20:43:35,448 [http-nio-8080-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-08-06 20:43:35,454 [http-nio-8080-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 6 ms
+2020-08-06 20:44:25,308 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:55 - Starting DemoLogAopApplication on Shanzhen-PC with PID 23964 (C:\Users\Shanzhen\IdeaProjects\demo\demo\demo-log-aop\target\classes started by Shanzhen in C:\Users\Shanzhen\IdeaProjects\demo\demo)
+2020-08-06 20:44:25,313 [main] INFO  [com.zl.log.DemoLogAopApplication] SpringApplication.java:651 - No active profile set, falling back to default profiles: default
+2020-08-06 20:44:26,971 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:108 - Tomcat initialized with port(s): 8080 (http)
+2020-08-06 20:44:26,989 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2020-08-06 20:44:26,991 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-06 20:44:26,995 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - An older version [1.2.16] of the Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.23]
+2020-08-06 20:44:26,995 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - Loaded Apache Tomcat Native library [1.2.16] using APR version [1.6.3].
+2020-08-06 20:44:26,995 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2020-08-06 20:44:26,997 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2020-08-06 20:44:28,063 [main] INFO  [org.apache.catalina.core.AprLifecycleListener] DirectJDKLog.java:173 - OpenSSL successfully initialized [OpenSSL 1.0.2m  2 Nov 2017]
+2020-08-06 20:44:28,141 [main] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2020-08-06 20:44:28,142 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] ServletWebServerApplicationContext.java:285 - Root WebApplicationContext: initialization completed in 2757 ms
+2020-08-06 20:44:28,586 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-08-06 20:44:28,915 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:220 - Tomcat started on port(s): 8080 (http) with context path '/demo'
+2020-08-06 20:44:28,925 [main] INFO  [com.zl.log.DemoLogAopApplication] StartupInfoLogger.java:61 - Started DemoLogAopApplication in 4.359 seconds (JVM running for 4.877)
+2020-08-06 20:44:46,449 [http-nio-8080-exec-1] INFO  [o.a.c.c.ContainerBase.[Tomcat].[localhost].[/demo]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-06 20:44:46,449 [http-nio-8080-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2020-08-06 20:44:46,467 [http-nio-8080-exec-1] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 18 ms
+2020-08-06 20:44:46,515 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:46 - 【请求 URL】：http://localhost:8080/demo/test
+2020-08-06 20:44:46,517 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:47 - 【请求 IP】：0:0:0:0:0:0:0:1
+2020-08-06 20:44:46,518 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:48 - 【请求类名】：com.zl.log.controller.TestController，【请求方法名】：test
+2020-08-06 20:44:46,603 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:51 - 【请求参数】：{"who":["123"]}，
+2020-08-06 20:44:48,384 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:80 - 【请求耗时】：1781毫秒
+2020-08-06 20:44:48,397 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:84 - 【浏览器类型】：CHROME8，【操作系统】：WINDOWS_7，【原始User-Agent】：Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+2020-08-06 20:44:48,398 [http-nio-8080-exec-1] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:66 - 【返回值】："123"
+2020-08-06 20:47:24,847 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:46 - 【请求 URL】：http://localhost:8080/demo/test
+2020-08-06 20:47:24,848 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:47 - 【请求 IP】：0:0:0:0:0:0:0:1
+2020-08-06 20:47:24,849 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:48 - 【请求类名】：com.zl.log.controller.TestController，【请求方法名】：test
+2020-08-06 20:47:24,851 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:51 - 【请求参数】：{"who":["123"]}，
+2020-08-06 20:47:24,852 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:80 - 【请求耗时】：0毫秒
+2020-08-06 20:47:24,853 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:84 - 【浏览器类型】：CHROME8，【操作系统】：WINDOWS_7，【原始User-Agent】：Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+2020-08-06 20:47:24,853 [http-nio-8080-exec-4] INFO  [com.zl.log.aspectj.AopLog] AopLog.java:66 - 【返回值】："123"

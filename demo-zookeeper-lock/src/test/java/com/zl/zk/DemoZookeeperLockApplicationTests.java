@@ -70,7 +70,6 @@ class DemoZookeeperLockApplicationTests {
     }
 
 
-
     @Data
     public static class BuyTest implements Runnable{
 
@@ -94,7 +93,7 @@ class DemoZookeeperLockApplicationTests {
 
     }
 
-    @ZooLock(key = "buy-2020-09-24", timeout = 1, timeUnit = TimeUnit.MINUTES)
+    @ZooLock(key = "buy-2021-01-20", timeout = 1, timeUnit = TimeUnit.MINUTES)
     public void aopBuy(int userId) {
         log.info("{} 正在出库。。。", userId);
         doBuy();

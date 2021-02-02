@@ -53,14 +53,7 @@ class DemoApplicationTests {
 
     @Test
     public void testMax(){
-        List<GoodsDo> goodsList = new ArrayList<>();
-        GoodsDo d1 = new GoodsDo("1",300L);
-        GoodsDo d2 = new GoodsDo("2",400L);
-        goodsList.add(d1);
-        goodsList.add(d2);
-        GoodsDo goodsDo = goodsList.stream()
-        .max(Comparator.comparing(GoodsDo::getSalePrice)).get();
-        System.out.println(goodsDo);
+        System.out.println(1<< 3);
     }
 
     @Data
