@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
+ * 生成二维码
  * @author zhuangl
  * @version 1.0
  * @date 2020/11/6 15:43
@@ -46,6 +47,6 @@ public class ChatTest {
      */
     @Test
     public void createQrImg(){
-        chatService.createQrImg("http://weixin.qq.com/q/02I0A79x94dUE1XH7gxv1N");
+        chatService.createQrImg("https://m.shanzhen.me/ess/wap/index");
     }
 }
