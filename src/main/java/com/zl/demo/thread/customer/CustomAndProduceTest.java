@@ -16,18 +16,22 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class CustomAndProduceTest {
 
+
     public static void main(String[] args) {
         Queue queue = new Queue();
         new Thread(new Producer(queue)).start();
         new Thread(new Producer(queue)).start();
-        new Thread(new Consumer(queue)).start();
+        new Thread(new Customer(queue)).start();
     }
 
-    static class Producer implements Runnable {
+    /**
+     * 生产者
+     */
+    static class Producer implements Runnable{
 
         Queue queue;
 
-        Producer(Queue queue) {
+        Producer(Queue queue){
             this.queue = queue;
         }
 
@@ -38,18 +42,20 @@ public class CustomAndProduceTest {
                     doingLongTime();
                     queue.putEle(RandomUtil.randomInt(10000));
                 }
-            } catch (Exception e) {
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
-
     }
 
-    static class Consumer implements Runnable {
+    /**
+     * 消费者
+     */
+    static class Customer implements Runnable{
 
         Queue queue;
 
-        Consumer(Queue queue) {
+        Customer(Queue queue){
             this.queue = queue;
         }
 
@@ -60,41 +66,40 @@ public class CustomAndProduceTest {
                     doingLongTime();
                     queue.takeEle();
                 }
-            } catch (Exception e) {
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
-
     }
 
-    static class Queue {
+    static class Queue{
+
         Lock lock = new ReentrantLock();
-        Condition prodCond  = lock.newCondition();
-        Condition consCond = lock.newCondition();
+        Condition prodCond = lock.newCondition();
+        Condition customCond = lock.newCondition();
 
-        final int CAPACITY = 10;
-        Object[] container = new Object[CAPACITY];
+        int CAP = 10;
+        Object[] container = new Object[CAP];
         int count = 0;
-        int putIndex = 0;
         int takeIndex = 0;
+        int putIndex = 0;
 
-        public void putEle(Object ele) throws InterruptedException {
+        public void putEle(Object obj) throws InterruptedException {
             try {
                 lock.lock();
-                while (count == CAPACITY) {
-                    log.info("队列已满：{}，生产者开始睡大觉。。。", count);
+                while (count == CAP){
+                    log.info("生产队列已满,生产者挂起");
                     prodCond.await();
                 }
-                container[putIndex] = ele;
-                log.info("生产元素：{}", ele);
+                container[putIndex] = obj;
+                log.info("生产商品：{}",container[putIndex]);
                 putIndex++;
-                if (putIndex >= CAPACITY) {
+                if(putIndex>=CAP){
                     putIndex = 0;
                 }
                 count++;
-                log.info("通知消费者去消费。。。");
-                consCond.signalAll();
-            } finally {
+                customCond.signalAll();
+            }finally {
                 lock.unlock();
             }
         }
@@ -102,26 +107,24 @@ public class CustomAndProduceTest {
         public Object takeEle() throws InterruptedException {
             try {
                 lock.lock();
-                while (count == 0) {
-                    log.info("队列已空：{}，消费者开始睡大觉。。。", count);
-                    consCond.await();
+                while (count == 0){
+                    log.info("生产队列为空,消费者挂起，等待生产");
+                    customCond.await();
                 }
-                Object ele = container[takeIndex];
-                log.info("消费元素：{}", ele);
+                Object obj = container[takeIndex];
+                log.info("消费商品：{}",obj);
                 takeIndex++;
-                if (takeIndex >= CAPACITY) {
+                if(takeIndex>=CAP){
                     takeIndex = 0;
                 }
                 count--;
-                log.info("通知生产者去生产。。。");
                 prodCond.signalAll();
-                return ele;
-            } finally {
+                return obj;
+            }finally {
                 lock.unlock();
             }
         }
     }
-
 
 
     static void doingLongTime(){
