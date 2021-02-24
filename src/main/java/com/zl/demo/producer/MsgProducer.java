@@ -20,7 +20,7 @@ public class MsgProducer implements RabbitTemplate.ConfirmCallback {
 
 
     public void sendMsg(String content){
-        rabbitTemplate.convertAndSend("szRabbitExchange","sz.queues.sms.server.sendQueue.key",content);
+        rabbitTemplate.convertAndSend("szRabbitExchange","sz.queues.sms.client.sendQueue.key",content);
     }
 
     @Override
