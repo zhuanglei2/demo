@@ -40,6 +40,7 @@ import com.zl.demo.pattern.strategy.StrategyContext;
 import com.zl.demo.pattern.strategy.impl.OperationAddByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationMultiplyByStrategy;
 import com.zl.demo.pattern.strategy.impl.OperationSubtractByStrategy;
+import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -52,9 +53,11 @@ import sun.util.calendar.CalendarUtils;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.apache.commons.codec.binary.Base64;
 
@@ -69,6 +72,64 @@ public class PatternTest {
 
     private static List<IndicationBo> indicationBos = new ArrayList<>();
 
+    /**
+     * 支付宝超期时间 3年
+     */
+    private final Integer aliPayExpireMonths = 36;
+    /**
+     * 微信超期时间1年
+     */
+    private final Integer wechatPayExpireMonths = 12;
+
+    @Test
+    public void testBig(){
+
+        Long a = 0L;
+        System.out.println(a==0);
+
+        System.out.println(new BigDecimal("416010").divide(new BigDecimal(1000),BigDecimal.ROUND_UP)
+                .multiply(new BigDecimal(1000)).longValue());
+    }
+
+    @Test
+    public void testTime(){
+        String str = "2019-03-03";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date paySuccTime = null;
+        try {
+            paySuccTime = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Date expireTime = getDateWithAddMonths(paySuccTime, aliPayExpireMonths);
+//        if (v.getPayPlatform().equals("WXPAY")) {
+//            expireTime = getDateWithAddMonths(paySuccTime, wechatPayExpireMonths);
+//        }
+        AtomicBoolean isExpire = new AtomicBoolean(false);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(11, 23);
+        Date time = calendar.getTime();
+        if (time.after(expireTime)){
+            isExpire.set(true);
+        }
+        System.out.println(isExpire.get());
+    }
+
+    public static final Date getDateWithAddMonths(Date date, int amount) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, amount);
+        return calendar.getTime();
+    }
+
+    @Builder
+    @Data
+    static class A{
+        private Boolean ifA = false;
+        private String last;
+    }
 
     @Test
     public void testUUID(){
