@@ -82,6 +82,24 @@ public class PatternTest {
     private final Integer wechatPayExpireMonths = 12;
 
     @Test
+    public void testLong(){
+        long i = 2<<2;
+        long start = System.currentTimeMillis();
+        System.out.println(i*2);
+        System.out.println(System.currentTimeMillis()-start);
+    }
+
+    @Test
+    public void testStream(){
+        long a = (48L+58000L)/2;
+        long b = new BigDecimal(a)
+                .multiply(new BigDecimal(1.2))
+                .setScale(2,BigDecimal.ROUND_HALF_UP).longValue();
+        System.out.println(b);
+        System.out.println(new BigDecimal(b).divide(new BigDecimal(1000),BigDecimal.ROUND_UP).multiply(new BigDecimal(1000)).longValue());
+    }
+
+    @Test
     public void testBig(){
 
         Long a = 0L;
