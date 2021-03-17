@@ -93,6 +93,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
+            <version>6.0.13.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -126,6 +127,14 @@
             <artifactId>hutool-all</artifactId>
             <version>5.4.5</version>
         </dependency>
+
+        <!--&lt;!&ndash; okHttp3 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.squareup.okhttp3</groupId>-->
+            <!--<artifactId>okhttp</artifactId>-->
+            <!--<version>4.8.1</version>-->
+        <!--</dependency>-->
+
 
     </dependencies>
 
