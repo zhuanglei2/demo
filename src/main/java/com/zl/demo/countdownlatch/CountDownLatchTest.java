@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 public class CountDownLatchTest {
 
     //并发数
-    private static final int threadNum = 100;
+    private static final int threadNum = 10;
 
     //倒计时数 发令枪 用于制造线程的并发执行
     private static CountDownLatch cdl = new CountDownLatch(threadNum);
@@ -45,14 +45,18 @@ public class CountDownLatchTest {
             System.out.println("第"+JSON.toJSONString(object)+"次并发测试的任务开始");
             try {
                 Map<String,Object> map = new HashMap<>();
-                map.put("szUserId","14109713479");
-                map.put("szUserToken","bf937bfc7df1f5794c43ff541324a407");
+                map.put("szUserId","14110080728");
+                map.put("szUserToken","2abc23224ed705ddd8ea044511f4758a");
                 map.put("platformName","SHANZHEN");
-                map.put("goodsCodes","GDS424315474,GDS521152067,GDS573614541,GDS203686134");
-                map.put("equityId",10000000121L);
+                map.put("institCode","INS473668310");
+                map.put("familyId",3016489L);
+                map.put("batchCode","bGcOhhYUzX");
+                map.put("isFamily",0);
                 map.put("isNewAccount","1");
+                map.put("needAuthFlag",1);
+                map.put("reserveTime","2021-03-24");
 
-                String resp = HttpClientUtils.post("http://127.0.0.1:8080/sz-biz-gi/query/pkg/comparePkgDetailByItem",map,"UTF-8");
+                String resp = HttpClientUtils.post("http://47.100.93.10:8140/sz-biz-gi/order/exam/placeTobOrderB2B",map,"UTF-8");
                 System.out.println("接口请求测试返回,resp:"+JSON.toJSONString(resp));
             } catch (Exception e) {
                 e.printStackTrace();

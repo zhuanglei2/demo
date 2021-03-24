@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
+            <groupId>org.spREADME.mdringframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 

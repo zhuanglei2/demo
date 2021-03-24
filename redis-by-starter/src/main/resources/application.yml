@@ -1,0 +1,9 @@
+demo:
+  redis:
+    host: 47.100.94.134
+    port: 4001
+    timeout: 3000
+    password: I5JPCPkMWTNz
+    max-total: 10
+    max-wait-millis: 10000
+    max-idle: 10

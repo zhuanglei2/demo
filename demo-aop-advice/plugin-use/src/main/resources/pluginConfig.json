@@ -1,0 +1,10 @@
+{ "name":"aop插件",
+  "configs":[{
+"id":"1",
+"name":"测试插件",
+"active":false,
+//加载类
+"className":"com.zl.plugin.log.PluginLog",
+//“className”:“com.destiny.plugin.TestPlugin”,
+// jar包路径
+"jarRemoteUrl":"jar:file:/C:/Users/Shanzhen/IdeaProjects/demo/demo/demo-aop-advice/plugin-log/target/plugin-log-0.0.1-SNAPSHOT.jar"}] }
