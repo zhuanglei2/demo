@@ -25,8 +25,6 @@ import com.zl.demo.pattern.adapter.impl.MediaAdapter;
 import com.zl.demo.pattern.bridge.Circle;
 import com.zl.demo.pattern.bridge.impl.GreenCircle;
 import com.zl.demo.pattern.bridge.impl.RedCircle;
-import com.zl.demo.pattern.build.Meal;
-import com.zl.demo.pattern.build.MealBuilder;
 import com.zl.demo.pattern.chain.AbstractLogger;
 import com.zl.demo.pattern.chain.ConsoleLogger;
 import com.zl.demo.pattern.chain.ErrorLogger;
@@ -55,6 +53,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Collectors;
 import org.apache.commons.codec.binary.Base64;
 
@@ -68,6 +68,7 @@ import org.apache.commons.codec.binary.Base64;
 public class PatternTest {
 
     private static List<IndicationBo> indicationBos = new ArrayList<>();
+
 
 
     @Test
@@ -545,17 +546,17 @@ public class PatternTest {
      */
     @Test
     public void testBuild(){
-        MealBuilder mealBuilder = new MealBuilder();
-
-        Meal vegMeal = mealBuilder.prepareVegMeal();
-        System.out.println("Veg Meal");
-        vegMeal.showItems();
-        System.out.println("Total Cost: " +vegMeal.getCost());
-
-        Meal nonVegMeal = mealBuilder.prepareNonVegMeal();
-        System.out.println("\n\nNon-Veg Meal");
-        nonVegMeal.showItems();
-        System.out.println("Total Cost: " +nonVegMeal.getCost());
+//        MealBuilder mealBuilder = new MealBuilder();
+//
+//        Meal vegMeal = mealBuilder.prepareVegMeal();
+//        System.out.println("Veg Meal");
+//        vegMeal.showItems();
+//        System.out.println("Total Cost: " +vegMeal.getCost());
+//
+//        Meal nonVegMeal = mealBuilder.prepareNonVegMeal();
+//        System.out.println("\n\nNon-Veg Meal");
+//        nonVegMeal.showItems();
+//        System.out.println("Total Cost: " +nonVegMeal.getCost());
     }
 
     /**
