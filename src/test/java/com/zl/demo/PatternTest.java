@@ -54,6 +54,7 @@ import sun.util.calendar.CalendarUtils;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URLDecoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -81,6 +82,33 @@ public class PatternTest {
      * 微信超期时间1年
      */
     private final Integer wechatPayExpireMonths = 12;
+
+    @Test
+    public void testIcon(){
+        List<String> combIds = new ArrayList<>();
+        for (int i = 0; i < 8000; i++) {
+            combIds.add(i+"");
+        }
+        int BATCH_INSERT= 2000;
+        int length = combIds.size();
+        int pageCount = (int) Math.ceil(1.0 * length / BATCH_INSERT);
+        List<String> temp = combIds;
+        for (int i = 0; i < pageCount; i++) {
+            if (((i + 1) * BATCH_INSERT) <= length) {
+                temp = combIds.stream().skip(i * BATCH_INSERT).limit((i+1)*BATCH_INSERT).collect(Collectors.toList());
+            } else {
+                temp =  combIds.stream().skip(i * BATCH_INSERT).limit(length).collect(Collectors.toList());
+            }
+
+            System.out.println(temp);
+        }
+    }
+
+    @Test
+    public void testEncode() throws UnsupportedEncodingException {
+        String str = "https%3A%2F%2Fm.shanzhen.me%2Fess%2Fwap%2Fpkg_choose_date%3FbatchCode%3DhiJfDhRMKc%26activityCode%3DACT007862930%26addGoodsCodes%3DGDS897527916%26equityId%3D10000001001%26familyId%3D%26fromType%3D";
+        System.out.println(URLDecoder.decode(str,"UTF-8"));
+    }
 
     @Test
     public void testLong(){
