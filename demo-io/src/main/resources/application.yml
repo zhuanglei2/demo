@@ -1,0 +1,9 @@
+
+
+server:
+  port: 8010
+  servlet:
+    context-path: /demo-io
+spring:
+  application:
+    name: demo-io

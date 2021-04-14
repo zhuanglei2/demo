@@ -2,7 +2,6 @@ package com.zl.util;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import com.zl.common.Consts;
 import com.zl.common.Status;
 import com.zl.config.JwtConfig;
