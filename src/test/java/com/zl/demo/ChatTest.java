@@ -23,7 +23,20 @@ public class ChatTest {
      */
     @Test
     public void getToken(){
-        log.info("{}",chatService.getToken("wxe2118bb21023ae39","ebb2af9fe8d21c869e8bafae88cd9f23"));
+        String s = "abc";
+        String t = "abbgdc";
+        int i = 0;
+        int j = 0;
+        while (i<s.length()&&j<t.length()){
+            if(t.charAt(j)==s.charAt(i)){
+                i++;
+                j++;
+            }else {
+                j++;
+            }
+        }
+
+        System.out.println(i);
     }
 
     /**

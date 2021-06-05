@@ -82,6 +82,25 @@ public class PatternTest {
     private final Integer wechatPayExpireMonths = 12;
 
     @Test
+    public void cowProduct(){
+        System.out.println(cow(6));
+    }
+
+    public int cow(int n){
+        if(n<=3){
+            return n;
+        }
+        int p1 = 1,p2=2,p3=3;
+        for (int i = 3; i < n; i++) {
+            int cur = p1+p3;
+            p1 = p2;
+            p2 = p3;
+            p3 = cur;
+        }
+        return p3;
+    }
+
+    @Test
     public void testIcon(){
         List<String> combIds = new ArrayList<>();
         for (int i = 0; i < 8000; i++) {
