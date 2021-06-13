@@ -50,6 +50,41 @@ public class RedisComponent {
         }
     }
 
+    /**
+     * bitmap set
+     * @param key
+     * @param offset
+     * @param flag
+     * @return
+     */
+    public boolean setBit(String key,Long offset,Boolean flag){
+        try(Jedis jedis = jedisPool.getResource()){
+            jedis.setbit(key,offset,flag);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean getBit(String key,Long offset){
+        try(Jedis jedis = jedisPool.getResource()){
+            Boolean flag = jedis.getbit(key, offset);
+            return flag;
+        }
+    }
+
+    /**
+     * 查询位图数量
+     * @param key
+     * @return
+     */
+    public Long getBitCount(String key){
+        try(Jedis jedis = jedisPool.getResource()){
+            return jedis.bitcount(key);
+        }
+    }
+
     private <T> T stringToBean(String str, Class<T> clazz) {
         Gson gson = new Gson();
         return gson.fromJson(str, clazz);

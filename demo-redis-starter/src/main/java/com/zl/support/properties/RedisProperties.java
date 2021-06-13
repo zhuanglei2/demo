@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2021/3/4 14:13
  */
 @Data
-@ConfigurationProperties("demo.redis")
+@ConfigurationProperties("com.zl.redis")
 public class RedisProperties {
     private String host = "127.0.0.1";
 
