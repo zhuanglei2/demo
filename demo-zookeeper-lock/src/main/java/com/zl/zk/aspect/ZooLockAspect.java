@@ -1,7 +1,7 @@
-package com.zl.zk.aspect;
+package com.zl.support.aspect;
 
-import com.zl.zk.annotation.LockKeyParam;
-import com.zl.zk.annotation.ZooLock;
+import com.zl.support.annotation.LockKeyParam;
+import com.zl.support.annotation.ZooLock;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;

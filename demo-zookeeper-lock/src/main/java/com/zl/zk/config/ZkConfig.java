@@ -1,6 +1,6 @@
-package com.zl.zk.config;
+package com.zl.support.config;
 
-import com.zl.zk.config.props.ZkProps;
+import com.zl.support.config.props.ZkProps;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;

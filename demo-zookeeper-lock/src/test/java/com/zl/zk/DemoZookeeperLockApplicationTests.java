@@ -1,7 +1,7 @@
-package com.zl.zk;
+package com.zl.support;
 
-import com.zl.zk.annotation.ZooLock;
-import com.zl.zk.aspect.ZooLockAspect;
+import com.zl.support.annotation.ZooLock;
+import com.zl.support.aspect.ZooLockAspect;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;

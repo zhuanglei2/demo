@@ -1,4 +1,4 @@
-package com.zl.zk.config.props;
+package com.zl.support.config.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
